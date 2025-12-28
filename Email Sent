@@ -1,1 +1,24 @@
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
+sender_email = ""
+recipient_email = ""
+password = ""
+
+subject = "Automated Email from Python"
+body = "Hello! This is an automated email sent using Python."
+msg = MIMEMultipart()
+msg['From'] = sender_email
+msg['To'] = recipient_email 
+msg['Subject'] = subject
+msg.attach(MIMEText(body, 'plain'))
+
+try:
+    with smtplib.SMTP('smtp.gmail.com', 587) as server:
+        server.starttls()
+        server.login(sender_email, password)
+        server.send_message(msg)
+    print("Email sent successfully!")
+except Exception as e:
+    print(f"Error: {e}")
